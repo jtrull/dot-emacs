@@ -1,1 +1,8 @@
 *.elc
+/auto-saves/
+/auto-save-list/
+/backups/
+/eshell/
+/projectile-bookmarks.eld
+/recentf
+
