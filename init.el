@@ -254,12 +254,17 @@ current frame, deletes the frame. Never kills the scratch buffer."
     (use-package yard-mode :load-path "site-lisp/yard-mode")
     (add-hook 'enh-ruby-mode-hook 'yard-mode)
 
-    (use-package rspec-mode :load-path "site-lisp/rspec-mode")
-    (add-to-list 'display-buffer-alist
-                 '("\\*rspec-compilation\\*" . (display-buffer-reuse-window . ((reusable-frames . t)
-                                                                               (inhibit-switch-frame . t)))))
+    (use-package rspec-mode
+      :disabled t
+      :load-path "site-lisp/rspec-mode"
+      :config
+      (add-to-list 'display-buffer-alist
+                   '("\\*rspec-compilation\\*" . (display-buffer-reuse-window . ((reusable-frames . t)
+                                                                                 (inhibit-switch-frame . t))))))
 
-    (use-package minitest :load-path "site-lisp/minitest")
+    (use-package minitest
+      :disabled t
+      :load-path "site-lisp/minitest")
 
     (use-package rake
       :load-path "site-lisp/rake"
@@ -408,6 +413,7 @@ extra keywords based on the sub-filetype."
     (helm-projectile-on)))
 
 (use-package restclient
+  :disabled t
   :load-path "site-lisp/restclient"
   :commands restclient-mode
   :init
