@@ -367,6 +367,19 @@ extra keywords based on the sub-filetype."
   (bind-key "C-i" #'helm-execute-persistent-action helm-map)
   (bind-key "C-z" #'helm-select-action helm-map))
 
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer)
+  :config
+  (use-package ibuffer-projectile
+    :load-path "site-lisp/ibuffer-projectile"
+    :demand t
+    :init
+    (add-hook 'ibuffer-hook
+              (lambda ()
+                (ibuffer-projectile-set-filter-groups)
+                (unless (eq ibuffer-sorting-mode 'alphabetic)
+                  (ibuffer-do-sort-by-alphabetic))))))
+
 (use-package js2-mode
   :load-path "site-lisp/js2-mode"
   :mode "\\.js\\'")
