@@ -228,78 +228,6 @@ current frame, deletes the frame. Never kills the scratch buffer."
   :config
   (global-diff-hl-mode))
 
-(use-package enh-ruby-mode
-  :load-path "site-lisp/enh-ruby-mode"
-  :mode (("\\.rb\\'" . enh-ruby-mode)
-         ("\\.rake\\'" . enh-ruby-mode)
-         ("\\.rabl\\'" . enh-ruby-mode)
-         ("\\`Rakefile\\'" . enh-ruby-mode)
-         ("\\.gemspec\\'" . enh-ruby-mode)
-         ("\\.ru\\'" . enh-ruby-mode)
-         ("\\`Gemfile\\'" . enh-ruby-mode)
-         ("\\`Vagrantfile\\'" . enh-ruby-mode)
-         ("\\.jbuilder\\'" . enh-ruby-mode))
-  :interpreter ("ruby" . enh-ruby-mode)
-  :config
-  (progn
-    (setq enh-ruby-bounce-deep-indent t
-          enh-ruby-hanging-brace-indent-level 2)
-
-    (use-package inf-ruby :load-path "site-lisp/inf-ruby")
-    (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
-
-    (use-package robe :load-path "site-lisp/robe")
-    (add-hook 'enh-ruby-mode-hook 'robe-mode)
-
-    (use-package yard-mode :load-path "site-lisp/yard-mode")
-    (add-hook 'enh-ruby-mode-hook 'yard-mode)
-
-    (use-package rspec-mode
-      :disabled t
-      :load-path "site-lisp/rspec-mode"
-      :config
-      (add-to-list 'display-buffer-alist
-                   '("\\*rspec-compilation\\*" . (display-buffer-reuse-window . ((reusable-frames . t)
-                                                                                 (inhibit-switch-frame . t))))))
-
-    (use-package minitest
-      :disabled t
-      :load-path "site-lisp/minitest")
-
-    (use-package rake
-      :load-path "site-lisp/rake"
-      :commands (rake rake-find-task))
-
-    (use-package projectile-rails :load-path "site-lisp/projectile-rails")
-    (add-hook 'projectile-mode-hook 'projectile-rails-on)
-
-    (use-package rails-log-mode
-      :load-path "site-lisp/rails-log-mode"
-      :commands (rails-log-show-development
-                 rails-log-show-test
-                 rails-log-show-production))
-
-    (defvar jt/enh-ruby-mode-extra-keywords-alist ()
-      "Adds sub-filetype-specific keywords to enh-ruby-mode files.
-See `jt/enh-ruby-mode-add-keywords'.")
-
-    (setq jt/enh-ruby-mode-extra-keywords-alist
-          '(("\\.rabl\\'" "object" "extends" "node" "glue" "child" "attribute"
-                          "attributes" "collection" "partial" "cache")
-            ("\\`Gemfile\\'" "source" "ruby" "gem" "group")
-            ("\\.jbuilder\\'" "json")))
-
-    (defun jt/enh-ruby-mode-add-keywords ()
-      "Processes `jt/enh-ruby-mode-extra-keywords-alist' and adds enh-ruby-mode
-extra keywords based on the sub-filetype."
-      (let ((extra-keywords
-             (assoc-default buffer-file-name jt/enh-ruby-mode-extra-keywords-alist 'string-match)))
-        (when extra-keywords
-          (set (make-local-variable 'enh-ruby-extra-keywords) extra-keywords)
-          (enh-ruby-local-enable-extra-keywords))))
-
-    (add-hook 'enh-ruby-mode-hook 'jt/enh-ruby-mode-add-keywords)))
-
 (use-package erc
   :commands erc
   :config
@@ -436,6 +364,53 @@ extra keywords based on the sub-filetype."
       (interactive)
       (switch-to-buffer (generate-new-buffer "*restclient*"))
       (restclient-mode))))
+
+(use-package ruby-mode
+  :mode (("\\.rb\\'" . ruby-mode)
+         ("\\.rake\\'" . ruby-mode)
+         ("\\.rabl\\'" . ruby-mode)
+         ("\\`Rakefile\\'" . ruby-mode)
+         ("\\.gemspec\\'" . ruby-mode)
+         ("\\.ru\\'" . ruby-mode)
+         ("\\`Gemfile\\'" . ruby-mode)
+         ("\\`Vagrantfile\\'" . ruby-mode)
+         ("\\.jbuilder\\'" . ruby-mode))
+  :interpreter ("ruby" . ruby-mode)
+  :config
+  (progn
+    (use-package inf-ruby :load-path "site-lisp/inf-ruby")
+    (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+
+    (use-package robe :load-path "site-lisp/robe")
+    (add-hook 'ruby-mode-hook 'robe-mode)
+
+    (use-package yard-mode :load-path "site-lisp/yard-mode")
+    (add-hook 'ruby-mode-hook 'yard-mode)
+
+    (use-package rspec-mode
+      :disabled t
+      :load-path "site-lisp/rspec-mode"
+      :config
+      (add-to-list 'display-buffer-alist
+                   '("\\*rspec-compilation\\*" . (display-buffer-reuse-window . ((reusable-frames . t)
+                                                                                 (inhibit-switch-frame . t))))))
+
+    (use-package minitest
+      :disabled t
+      :load-path "site-lisp/minitest")
+
+    (use-package rake
+      :load-path "site-lisp/rake"
+      :commands (rake rake-find-task))
+
+    (use-package projectile-rails :load-path "site-lisp/projectile-rails")
+    (add-hook 'projectile-mode-hook 'projectile-rails-on)
+
+    (use-package rails-log-mode
+      :load-path "site-lisp/rails-log-mode"
+      :commands (rails-log-show-development
+                 rails-log-show-test
+                 rails-log-show-production))))
 
 (use-package scss-mode
   :load-path "site-lisp/scss-mode"
