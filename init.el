@@ -228,6 +228,10 @@ current frame, deletes the frame. Never kills the scratch buffer."
   :config
   (global-diff-hl-mode))
 
+(use-package dockerfile-mode
+  :load-path "site-lisp/dockerfile-mode"
+  :mode ("Dockerfile\\'" . dockerfile-mode))
+
 (use-package erc
   :commands erc
   :config
